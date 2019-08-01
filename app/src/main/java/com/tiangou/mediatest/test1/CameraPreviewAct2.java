@@ -1,13 +1,15 @@
 package com.tiangou.mediatest.test1;
 
 import android.content.pm.PackageManager;
+import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.TextureView;
 import android.view.View;
 import android.widget.Button;
 
@@ -15,14 +17,15 @@ import com.tiangou.mediatest.R;
 
 import java.io.IOException;
 
-public class CameraPreviewAct1 extends AppCompatActivity {
+public class CameraPreviewAct2 extends AppCompatActivity {
 
-    private static final String TAG = "CameraPreviewAct1";
-    
 
-    SurfaceView surfaceView;
+    private static final String TAG = "CameraPreviewAct2";
 
-    SurfaceHolder surfaceHolder;
+    TextureView textureView;
+
+
+    SurfaceTexture surfaceTexture;
 
     Button button;
 
@@ -32,47 +35,53 @@ public class CameraPreviewAct1 extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_camera_preview_act1);
+        setContentView(R.layout.activity_camera_preview_act2);
 
 
         button = findViewById(R.id.button);
 
-        surfaceView = findViewById(R.id.surface_view);
+        textureView = findViewById(R.id.texture_view);
 
-        surfaceView.getHolder().addCallback(new SurfaceHolder.Callback() {
+
+        textureView.setSurfaceTextureListener(new TextureView.SurfaceTextureListener() {
             @Override
-            public void surfaceCreated(SurfaceHolder holder) {
-
-                Log.d(TAG, "surfaceCreated: ");
+            public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
 
 
-                surfaceHolder = holder;
+                Log.d(TAG, "onSurfaceTextureAvailable: ");
 
-
-
-
+                surfaceTexture = surface;
             }
 
             @Override
-            public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+            public void onSurfaceTextureSizeChanged(SurfaceTexture surface, int width, int height) {
 
 
-                Log.d(TAG, "surfaceChanged: ");
+                Log.d(TAG, "onSurfaceTextureSizeChanged: ");
             }
 
             @Override
-            public void surfaceDestroyed(SurfaceHolder holder) {
+            public boolean onSurfaceTextureDestroyed(SurfaceTexture surface) {
 
-                Log.d(TAG, "surfaceDestroyed: ");
+                Log.d(TAG, "onSurfaceTextureDestroyed: ");
 
                 if (camera != null) {
 
 
-
                     camera.release();
                 }
+
+                return false;
+            }
+
+            @Override
+            public void onSurfaceTextureUpdated(SurfaceTexture surface) {
+
+                Log.d(TAG, "onSurfaceTextureUpdated: ");
+
             }
         });
+        
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,7 +89,7 @@ public class CameraPreviewAct1 extends AppCompatActivity {
 
 
 
-                if (PermissionUtil.checkCameraPermission(CameraPreviewAct1.this, true)) {
+                if (PermissionUtil.checkCameraPermission(CameraPreviewAct2.this, true)) {
 
 
                     try {
@@ -90,7 +99,7 @@ public class CameraPreviewAct1 extends AppCompatActivity {
                         camera = Camera.open();
                         camera.setDisplayOrientation(90);
 
-                        camera.setPreviewDisplay(surfaceHolder);
+                        camera.setPreviewTexture(surfaceTexture);
 
                         camera.startPreview();
 
@@ -120,11 +129,13 @@ public class CameraPreviewAct1 extends AppCompatActivity {
                     try {
 
 
-                        camera.setPreviewDisplay(surfaceHolder);
-
-                        camera.startPreview();
-
                         camera = Camera.open();
+
+
+                        camera.setPreviewTexture(surfaceTexture);
+
+
+
                         camera.setDisplayOrientation(90);
                         camera.startPreview();
 

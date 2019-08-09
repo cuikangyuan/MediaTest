@@ -7,8 +7,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.SurfaceHolder;
-import android.view.SurfaceView;
 import android.view.TextureView;
 import android.view.View;
 import android.widget.Button;
@@ -89,7 +87,7 @@ public class CameraPreviewAct2 extends AppCompatActivity {
 
 
 
-                if (PermissionUtil.checkCameraPermission(CameraPreviewAct2.this, true)) {
+                if (MyPermissionUtil.checkCameraPermission(CameraPreviewAct2.this, true)) {
 
 
                     try {
@@ -115,7 +113,7 @@ public class CameraPreviewAct2 extends AppCompatActivity {
         });
 
 
-        //PermissionUtil.checkCameraPermission(this, true);
+        //MyPermissionUtil.checkCameraPermission(this, true);
 
     }
 
@@ -123,7 +121,7 @@ public class CameraPreviewAct2 extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode){
-            case PermissionUtil.CHECK_CAMERA_PERMISSION:
+            case MyPermissionUtil.CHECK_CAMERA_PERMISSION:
                 if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
                     try {

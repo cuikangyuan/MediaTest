@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                boolean b = PermissionUtil.checkStoragePermission(MainActivity.this, true);
+                boolean b = MyPermissionUtil.checkStoragePermission(MainActivity.this, true);
 
 
                 if (b) {
@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode,String[] permissions,int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode){
-            case PermissionUtil.CHECK_STORAGE_PERMISSION:
+            case MyPermissionUtil.CHECK_STORAGE_PERMISSION:
                 if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
                     path = Environment.getExternalStorageDirectory().getPath() + File.separator + "11.jpg";

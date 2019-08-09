@@ -80,7 +80,7 @@ public class CameraPreviewAct1 extends AppCompatActivity {
 
 
 
-                if (PermissionUtil.checkCameraPermission(CameraPreviewAct1.this, true)) {
+                if (MyPermissionUtil.checkCameraPermission(CameraPreviewAct1.this, true)) {
 
 
                     try {
@@ -106,7 +106,7 @@ public class CameraPreviewAct1 extends AppCompatActivity {
         });
 
 
-        //PermissionUtil.checkCameraPermission(this, true);
+        //MyPermissionUtil.checkCameraPermission(this, true);
 
     }
 
@@ -114,7 +114,7 @@ public class CameraPreviewAct1 extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode){
-            case PermissionUtil.CHECK_CAMERA_PERMISSION:
+            case MyPermissionUtil.CHECK_CAMERA_PERMISSION:
                 if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
                     try {

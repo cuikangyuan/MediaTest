@@ -12,10 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-/**
- * Created by chz on 2016/5/12.
- */
-public class PermissionUtil {
+public class MyPermissionUtil {
 
     public static final int CHECK_CAMERA_PERMISSION = 1;
     public static final int CHECK_STORAGE_PERMISSION = 2;

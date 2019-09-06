@@ -13,20 +13,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".test1.OpenGLTestAct1">
+        <activity android:name=".test1.mediacodecTest.MediacodecActivity1">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".test1.CameraPreviewAct2">
+        <activity android:name=".test1.OpenGLTestAct1">
 
         </activity>
-        <activity android:name=".test1.CameraPreviewAct1">
-
-        </activity>
-        <activity android:name=".test1.Main3Activity"></activity>
+        <activity android:name=".test1.CameraPreviewAct2"></activity>
+        <activity android:name=".test1.CameraPreviewAct1"></activity>
+        <activity android:name=".test1.Main3Activity" />
         <activity android:name=".test1.Main2Activity" />
         <activity android:name=".test1.MainActivity" />
     </application>

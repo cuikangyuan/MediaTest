@@ -3,6 +3,7 @@ package com.tiangou.mediatest.test1.opengl_draw_triangle
 import android.content.Context
 import android.opengl.GLES20
 import android.opengl.GLSurfaceView
+import android.opengl.Matrix
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 import java.nio.FloatBuffer
@@ -39,6 +40,10 @@ class TriangleShapeRender(var context: Context):GLSurfaceView.Renderer {
     lateinit var mVertexFloatBuffer: FloatBuffer
 
     var programId: Int = 0
+
+    val mProjectionMatrix = FloatArray(16)
+
+    var uMatrix: Int = 0
 
     companion object {
 
@@ -93,6 +98,14 @@ class TriangleShapeRender(var context: Context):GLSurfaceView.Renderer {
                 0
         )
 
+        GLES20.glUniformMatrix4fv(
+                uMatrix,
+                1,
+                false,
+                mProjectionMatrix,
+                0
+        )
+
         //绘制三角形
         GLES20.glDrawArrays(
                 GLES20.GL_TRIANGLES,
@@ -106,6 +119,40 @@ class TriangleShapeRender(var context: Context):GLSurfaceView.Renderer {
         //在窗口改变的时候调用
         //GLES20.glViewport(0, 0, width, height)
 
+        var aspectRatio: Float = 0f
+
+        if (width > height) {
+
+            aspectRatio = (width / height).toFloat()
+            //横屏 需要设置的就是左右
+            Matrix.orthoM(
+                    mProjectionMatrix,
+                    0,
+                    -aspectRatio,
+                    aspectRatio,
+                    -1f,
+                    1f,
+                    -1f,
+                    1f
+                    )
+
+        } else {
+
+            //竖屏 需要设置的就是上下
+            aspectRatio = (height / width).toFloat()
+
+            Matrix.orthoM(
+                    mProjectionMatrix,
+                    0,
+                    -1f,
+                    1f,
+                    -aspectRatio,
+                    aspectRatio,
+                    -1f,
+                    1f
+
+            )
+        }
 
     }
 
@@ -131,6 +178,9 @@ class TriangleShapeRender(var context: Context):GLSurfaceView.Renderer {
         //将shaderId 绑定到program中
         GLES20.glAttachShader(programId, vertexShaderObjectId)
         GLES20.glAttachShader(programId, fragmentShaderObjectId)
+
+        uMatrix = GLES20.glGetUniformLocation(programId, "u_Matrix")
+
 
         //最后启动 Link Program
         GLES20.glLinkProgram(programId)
